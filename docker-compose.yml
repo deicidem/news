@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "eventManagementNext"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    env_file: ./.env.local
+    ports:
+      - "127.0.0.1:5474:5432"

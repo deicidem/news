@@ -1,0 +1,38 @@
+.cardWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	width: 400px;
+	height: 450px;
+	cursor: pointer;
+	transition: box-shadow 0.3s ease;
+	background: var(--background-gray);
+	border-radius: 12px;
+	overflow: hidden;
+	padding-bottom: 16px;
+
+	&_imgBox {
+		position: relative;
+		border-radius: 12px 12px 0 0;
+		width: 100%;
+		height: 300px;
+
+		img {
+			border-radius: 12px 12px 0 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&_info {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		gap: 12px;
+		padding: 0 10px;
+		justify-content: space-between;
+		align-content: space-between;
+	}
+}
