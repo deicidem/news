@@ -10,6 +10,11 @@ Run your app in the development mode.
 
 ```
 blitz dev
+
+npx prisma generate
+
+npx prisma db seed    
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

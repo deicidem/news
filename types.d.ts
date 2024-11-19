@@ -1,5 +1,5 @@
 import { SimpleRolesIsAuthorized } from '@blitzjs/auth';
-import { User } from './server/db';
+import { User } from './db';
 
 export type Role = 'ADMIN' | 'CLIENT';
 

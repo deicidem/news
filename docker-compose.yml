@@ -12,3 +12,4 @@ services:
     env_file: ./.env.local
     ports:
       - "127.0.0.1:5474:5432"
+    restart: always
