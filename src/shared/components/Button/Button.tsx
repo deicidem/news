@@ -18,6 +18,7 @@ type TButtonProps = {
 	type?: 'submit' | 'reset' | 'button';
 	dataTestid?: string;
 	href?: string;
+	addedClassName?: string;
 };
 export const CustomButton = ({
 	label,
@@ -30,6 +31,7 @@ export const CustomButton = ({
 	type,
 	dataTestid,
 	href,
+	addedClassName,
 }: TButtonProps) => {
 	const getButtonStyles = () => {
 		switch (view) {
@@ -119,7 +121,7 @@ export const CustomButton = ({
 			disabled={disabled}
 			type={type}
 			href={href}
-			className='btn'
+			className={`btn, ${addedClassName}`}
 			sx={{
 				display: 'flex',
 				gap: '8px',

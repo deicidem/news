@@ -1,0 +1,40 @@
+@import '@/shared/styles/mixins.scss';
+
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	//@include ignore-root-page-styles();
+
+	&_block {
+		display: flex;
+		padding: 60px 15% 40px 15%;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+
+		&_text{
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			text-align: justify;
+			letter-spacing: 1.2px;
+		}
+
+		@media screen and (max-width: 500px) {
+			padding: 20px;
+		}
+	}
+
+	&_enumeration {
+		padding: 0 15%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 40px;
+	}
+
+	&_blockWhite{
+		//color: var(--black-color);
+		background: var(--white-color);
+	}
+}

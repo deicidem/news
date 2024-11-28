@@ -6,19 +6,10 @@ declare global {
 		title: string;
 	}
 
-	export interface IOnlineFormat {
-		formatName: 'онлайн' | string;
-		link: string;
-	}
-
-	export interface IOfflineFormat {
-		formatName: 'офлайн' | string;
-		address: string;
-	}
-
-	export interface IHybridFormat {
-		formatName: 'гибрид' | string;
-		link: string;
-		address: string;
+	export interface IFormat {
+		id: string;
+		formatName: 'онлайн' | 'офлайн' | 'гибрид';
+		link?: string;
+		address?: string;
 	}
 }

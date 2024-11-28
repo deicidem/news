@@ -17,7 +17,6 @@
     "studio": "blitz prisma studio",
     "test:watch": "vitest"
   },
-  "type": "module",
   "prisma": {
     "schema": "server/db/schema.prisma",
 		"seed": "node server/db/seed.js"

@@ -11,10 +11,6 @@ Run your app in the development mode.
 ```
 blitz dev
 
-npx prisma generate
-
-npx prisma db seed    
-
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -30,6 +26,10 @@ blitz prisma migrate dev
 
 Чтобы сбросить
 blitz prisma migrate reset
+
+npx prisma generate
+
+npx prisma db seed
 
 Ensure the `.env.test.local` file has required environment variables:
 

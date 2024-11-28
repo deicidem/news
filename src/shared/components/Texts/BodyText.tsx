@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 type TBodyTextProps = {
 	text: string | ReactNode;
-	size?: 'p1' | 'p2' | 's1' | 's2';
+	size?: 'p1' | 'p2' | 's1' | 's2' | 'm' | 'l';
 
 	fontWeight?: string;
 	color?: string;
@@ -16,6 +16,18 @@ export const BodyText = ({
 }: TBodyTextProps) => {
 	const getTextStyles = () => {
 		switch (size) {
+			case 'l':
+				return {
+					fontSize: '22px',
+					fontWeight: fontWeight ? fontWeight : '400',
+					lineHeight: '36px',
+				};
+			case 'm':
+				return {
+					fontSize: '20px',
+					fontWeight: fontWeight ? fontWeight : '400',
+					lineHeight: '32px',
+				};
 			case 'p1':
 				return {
 					fontSize: '16px',
@@ -43,6 +55,9 @@ export const BodyText = ({
 		}
 	};
 	return (
-		<Typography sx={{ color: color, ...getTextStyles() }}>{text}</Typography>
+		<Typography
+			sx={{ color: color, whiteSpace: 'pre-wrap', ...getTextStyles() }}>
+			{text}
+		</Typography>
 	);
 };
