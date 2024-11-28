@@ -3,16 +3,25 @@
 .wrapper{
 	display: flex;
 	flex-direction: column;
-	//@include ignore-root-page-styles();
+
+	&_testBlock{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 20px 15% 10px 15%;
+		margin-top: -5px;
+	}
 
 	&_block {
 		display: flex;
+		flex-direction: column;
 		padding: 60px 15% 40px 15%;
 		align-items: center;
 		justify-content: center;
-		gap: 20px;
+		gap: 60px;
 
 		&_text{
+			width: 100%;
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
@@ -24,6 +33,7 @@
 			padding: 20px;
 		}
 	}
+
 
 	&_enumeration {
 		padding: 0 15%;
@@ -38,3 +48,4 @@
 		background: var(--white-color);
 	}
 }
+

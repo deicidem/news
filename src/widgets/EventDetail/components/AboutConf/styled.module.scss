@@ -1,0 +1,41 @@
+.aboutBlock{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+}
+
+.categories{
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+
+	&_elem{
+		border-radius: 32px;
+		border: 4px solid var(--accent-light-color);
+		padding: 8px 16px;
+		color: var(--black-color)
+	}
+}
+
+.cards{
+	width: 100%;
+	display: flex;
+	gap: 20px;
+
+	&_elem{
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		width: 25%;
+		border-radius: 32px;
+		padding: 24px;
+		color: var(--white-color);
+		background: var(--black-color);
+		letter-spacing: 1.2px;
+
+		&:nth-child(2){
+			background: var(--accent-color);
+		}
+	}
+}
