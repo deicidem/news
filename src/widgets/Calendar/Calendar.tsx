@@ -1,86 +1,68 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Box, Drawer, Typography, Button, Badge } from '@mui/material';
+import { Box } from '@mui/material';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import {
-	LocalizationProvider,
-	PickersDay,
-	PickersDayProps,
-} from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Dayjs } from 'dayjs';
 import './ui/calendar.scss';
+import { HighlightedCalendarDays } from '@/features/highlightedCalendarDays';
+import { eventsMocks } from '@/shared/api/mocks';
+import { formatDateToString } from '@/shared/utils/formatDateToString';
 
-// Пример данных о конференциях
-const events = [
-	{
-		id: '1',
-		title: 'Cybersecurity Awareness Conference',
-		date: '2024-11-20',
-		description: 'Learn about the latest in cybersecurity.',
-	},
-	{
-		id: '2',
-		title: 'Data Science and Analytics Conference',
-		date: '2024-12-05',
-		description: 'Explore data science trends and techniques.',
-	},
-];
+type TCalendarProps = {
+	onSelectEvent?: (data: string | Date) => void;
+};
 
-function ServerDay(
-	props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }
-) {
-	const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+export const Calendar = ({ onSelectEvent }: TCalendarProps) => {
+	const testEvents = [eventsMocks[1], eventsMocks[4]];
 
-	const isHighlighted =
-		!outsideCurrentMonth && highlightedDays.includes(day.format('YYYY-MM-DD'));
-
-	return (
-		<Badge
-			key={day.toString()}
-			overlap='circular'
-			badgeContent={isHighlighted ? '🌟' : undefined} // Значок для отмеченных дней
-		>
-			<PickersDay {...other} day={day} />
-		</Badge>
-	);
-}
-
-export const Calendar = () => {
-	const [selectedEvent, setSelectedEvent] = useState(null);
-	const [drawerOpen, setDrawerOpen] = useState(false);
+	//const [selectedEvent, setSelectedEvent] = useState(null);
+	//const [drawerOpen, setDrawerOpen] = useState(false);
 	const [highlightedDays, setHighlightedDays] = useState<string[]>([]);
 
 	useEffect(() => {
 		// Извлекаем даты конференций в формате YYYY-MM-DD
-		const daysToHighlight = events.map((event) => event.date);
+		const daysToHighlight = testEvents.map((event) =>
+			formatDateToString(event.startDate, 'yyyy-MM-dd')
+		);
+		console.log(daysToHighlight);
 		setHighlightedDays(daysToHighlight);
 	}, []);
 
-	const handleDateClick = (date: Dayjs) => {
-		const event = events.find(
-			(event) => event.date === date.format('YYYY-MM-DD')
-		);
-		if (event) {
-			setSelectedEvent(event);
-			setDrawerOpen(true);
-		}
-	};
+	// const handleDateClick = (date: Dayjs) => {
+	// 	const event = testEvents.find(
+	// 		(event) =>
+	// 			formatDateToString(event.startDate, 'yyyy-MM-dd') ===
+	// 			date.format('YYYY-MM-DD')
+	// 	);
+	// 	if (event) {
+	// 		setSelectedEvent(event);
+	// 		setDrawerOpen(true);
+	// 		if (onSelectEvent) {
+	// 			console.log(date.toISOString());
+	// 			onSelectEvent(date.toISOString());
+	// 		}
+	// 	}
+	// };
 
-	const handleCloseDrawer = () => {
-		setDrawerOpen(false);
-		setSelectedEvent(null);
-	};
+	// const handleCloseDrawer = () => {
+	// 	setDrawerOpen(false);
+	// 	setSelectedEvent(null);
+	// };
 
 	return (
 		<LocalizationProvider dateAdapter={AdapterDayjs}>
 			<Box display='flex' alignItems='center' width='100%' flex='1'>
 				<DateCalendar
-					onClickDay={handleDateClick}
+					//onClickDay={handleDateClick}
+					//onClick={(e) => console.log(e)}
 					renderLoading={() => <div>Loading...</div>}
 					slots={{
 						day: (dayProps) => (
-							<ServerDay {...dayProps} highlightedDays={highlightedDays} />
+							<HighlightedCalendarDays
+								{...dayProps}
+								highlightedDays={highlightedDays}
+							/>
 						),
 					}}
 				/>

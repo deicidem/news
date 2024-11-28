@@ -32,8 +32,8 @@ export const eventsMocks: IEvent[] = [
 		updatedAt: new Date('2023-04-10T14:00:00.000Z'),
 		updatedBy: '012',
 		title: 'AI and Machine Learning Conference',
-		startDate: new Date('2023-09-01T10:00:00.000Z'),
-		endDate: new Date('2023-09-03T18:00:00.000Z'),
+		startDate: new Date('2024-12-21T10:00:00.000Z'),
+		endDate: new Date('2024-12-22T18:00:00.000Z'),
 		formatId: 'format2',
 		format: {
 			id: 'format2',
@@ -106,8 +106,8 @@ export const eventsMocks: IEvent[] = [
 		updatedAt: new Date('2023-04-05T15:30:00.000Z'),
 		updatedBy: '456',
 		title: 'React Conference 2023',
-		startDate: new Date('2023-06-01T09:00:00.000Z'),
-		endDate: new Date('2023-06-03T17:00:00.000Z'),
+		startDate: new Date('2024-12-01T09:00:00.000Z'),
+		endDate: new Date('2024-12-03T17:00:00.000Z'),
 		formatId: 'format2',
 		format: {
 			id: 'format2',

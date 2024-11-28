@@ -1,9 +1,10 @@
+'use client';
 import React, { StrictMode } from 'react';
 import { Footer, Header } from '@/widgets';
-// import { Provider } from 'react-redux';
-// import store from '@/app/store';
 import '@/app/styles/globals.scss';
 import './layoutStyled.scss';
+import { Provider } from 'react-redux';
+import store from '@/app/store';
 
 export default function RootLayout({
 	children,
@@ -19,15 +20,15 @@ export default function RootLayout({
 			</head>
 			<body>
 				<StrictMode>
-					{/*<Provider store={store}>*/}
-					{/*<PersistGate loading={null} persistor={persistor}>*/}
-					<div className='root'>
-						<Header />
-						<div className='wrapper-page'>{children}</div>
-						<Footer />
-					</div>
-					{/*</PersistGate>*/}
-					{/*</Provider>*/}
+					<Provider store={store}>
+						{/*<PersistGate loading={null} persistor={persistor}>*/}
+						<div className='root'>
+							<Header />
+							<div className='wrapper-page'>{children}</div>
+							<Footer />
+						</div>
+						{/*</PersistGate>*/}
+					</Provider>
 				</StrictMode>
 			</body>
 		</html>

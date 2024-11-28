@@ -10,11 +10,13 @@ import {
 	PURGE,
 	REGISTER,
 } from 'redux-persist';
+import { selectedDateSlice } from './slices/selectedDate/selectedDateSlice';
 
 const rootReducer = combineReducers({
 	// [userSlice.name]: userSlice.reducer,
 	// [userApi.reducerPath]: userApi.reducer,
 	// [authApi.reducerPath]: authApi.reducer,
+	[selectedDateSlice.name]: selectedDateSlice.reducer,
 });
 
 const persistConfig = {

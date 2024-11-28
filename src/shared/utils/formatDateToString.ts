@@ -1,4 +1,4 @@
-export function formatDateToString(date: Date): string {
+export function formatDateToString(date: Date, format = 'dd.MM.yyyy'): string {
 	if (!(date instanceof Date) || isNaN(date.getTime())) {
 		throw new Error('Invalid date provided');
 	}
@@ -7,5 +7,12 @@ export function formatDateToString(date: Date): string {
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const year = date.getFullYear();
 
-	return `${day}.${month}.${year}`;
+	switch (format) {
+		case 'dd.MM.yyyy':
+			return `${day}.${month}.${year}`;
+		case 'yyyy-MM-dd':
+			return `${year}-${month}-${day}`;
+		default:
+			throw new Error('Unsupported format provided');
+	}
 }
