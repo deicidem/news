@@ -1,5 +1,3 @@
-import { LoginForm } from "../components/LoginForm"
+import { SignInPage } from '@/pages/authentication/_signInPage';
 
-export default function LoginPage() {
-  return <LoginForm />
-}
+export default SignInPage;

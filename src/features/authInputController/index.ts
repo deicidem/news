@@ -1,0 +1,1 @@
+export { AuthInputController } from './AuthInputController';
