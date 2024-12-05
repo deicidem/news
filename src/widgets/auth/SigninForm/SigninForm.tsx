@@ -14,9 +14,19 @@ import { SIGN_UP_FORM_SETTINGS } from '@/shared/constants';
 import s from '../styles..module.scss';
 import { AuthButtons } from '@/features/authButtons';
 import { AuthInputController } from '@/features/authInputController';
-export const SignInForm = () => {
-	const dispatch = useDispatch();
+import { useMutation } from '@blitzjs/rpc';
+import login from '@/app/(auth)/mutations/login';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Route } from 'next';
+import { AuthenticationError } from 'blitz';
+import { FORM_ERROR } from '@/app/components/Form';
+import { getAntiCSRFToken } from '@blitzjs/auth';
 
+export const SignInForm = () => {
+	//const dispatch = useDispatch();
+	const router = useRouter();
+	const [loginMutation] = useMutation(login);
+	const next = useSearchParams()?.get('next');
 	//const [signUpRequestFn] = useSignInMutation();
 	const {
 		control,
@@ -31,23 +41,47 @@ export const SignInForm = () => {
 	});
 
 	const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
+		//const antiCSRFToken = getAntiCSRFToken();
+		console.log(values);
 		try {
-			//const response = await signUpRequestFn(values).unwrap();
-			// dispatch(userActions.setUser(response.user));
-			// dispatch(
-			// 	userActions.setAccessToken({ accessToken: response.accessToken })
-			// );
-			// toast.success('Вы успешно вошли в аккаунт!');
-			//navigate('/');
-		} catch (error) {
-			console.log({ error });
-			// toast.error(
-			// 	getMessageFromError(
-			// 		error,
-			// 		'Не известная ошибка при авторизации пользователя'
-			// 	)
-			// );
+			await loginMutation(values);
+			router.push('/');
+			console.log('GOOD!');
+			//router.refresh();
+
+			if (next) {
+				router.push(next as Route);
+			} else {
+				router.push('/');
+			}
+		} catch (error: any) {
+			if (error instanceof AuthenticationError) {
+				return { [FORM_ERROR]: 'Sorry, those credentials are invalid' };
+			} else {
+				return {
+					[FORM_ERROR]:
+						'Sorry, we had an unexpected error. Please try again. - ' +
+						error.toString(),
+				};
+			}
 		}
+		// try {
+		// 	//const response = await signUpRequestFn(values).unwrap();
+		// 	// dispatch(userActions.setUser(response.user));
+		// 	// dispatch(
+		// 	// 	userActions.setAccessToken({ accessToken: response.accessToken })
+		// 	// );
+		// 	// toast.success('Вы успешно вошли в аккаунт!');
+		// 	//navigate('/');
+		// } catch (error) {
+		// 	console.log({ error });
+		// 	// toast.error(
+		// 	// 	getMessageFromError(
+		// 	// 		error,
+		// 	// 		'Не известная ошибка при авторизации пользователя'
+		// 	// 	)
+		// 	// );
+		// }
 	};
 
 	return (
