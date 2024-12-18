@@ -1,41 +1,25 @@
-import { setupBlitzServer } from '@blitzjs/next';
-import {
-	AuthServerPlugin,
-	PrismaStorage,
-	simpleRolesIsAuthorized,
-} from '@blitzjs/auth';
-import db from '../../db';
+import { setupBlitzServer as setupServer } from '@blitzjs/next';
+import { AuthServerPlugin, PrismaStorage } from '@blitzjs/auth';
 import { BlitzLogger } from 'blitz';
 import { RpcServerPlugin } from '@blitzjs/rpc';
-import { authConfig } from './blitz-auth-config';
+import db from '../../db';
 
-const {
+export const {
 	api,
-	getBlitzContext,
 	useAuthenticatedBlitzContext,
 	invoke,
+	getBlitzContext,
 	withBlitzAuth,
-	gSSP,
 	gSP,
-} = setupBlitzServer({
+	gSSP,
+} = setupServer({
 	plugins: [
 		AuthServerPlugin({
-			...authConfig,
+			cookiePrefix: 'event_management_next',
 			storage: PrismaStorage(db),
-			isAuthorized: simpleRolesIsAuthorized,
-			//sessionSecret: process.env.SESSION_SECRET || 'default-secret',
+			isAuthorized: () => true,
 		}),
 		RpcServerPlugin({}),
 	],
 	logger: BlitzLogger({}),
 });
-
-export {
-	api,
-	getBlitzContext,
-	useAuthenticatedBlitzContext,
-	invoke,
-	withBlitzAuth,
-	gSSP,
-	gSP,
-};

@@ -21,6 +21,7 @@ import { Route } from 'next';
 import { AuthenticationError } from 'blitz';
 import { FORM_ERROR } from '@/app/components/Form';
 import { getAntiCSRFToken } from '@blitzjs/auth';
+import { SignInFormValues } from '@/widgets/auth/SigninForm/types';
 
 export const SignInForm = () => {
 	//const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export const SignInForm = () => {
 	const {
 		control,
 		handleSubmit,
+		setError,
 		formState: { errors, isValid, isSubmitting, isSubmitted },
 	} = useForm<SignUpFormValues>({
 		defaultValues: {
@@ -40,50 +42,95 @@ export const SignInForm = () => {
 		resolver: yupResolver(signInFormSchema),
 	});
 
-	const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
-		//const antiCSRFToken = getAntiCSRFToken();
-		console.log(values);
-		try {
-			await loginMutation(values);
-			router.push('/');
-			console.log('GOOD!');
-			//router.refresh();
+	// const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
+	// 	//const antiCSRFToken = getAntiCSRFToken();
+	// 	console.log(values);
+	// 	try {
+	// 		await loginMutation(values);
+	// 		router.push('/');
+	// 		console.log('GOOD!');
+	// 		//router.refresh();
+	//
+	// 		if (next) {
+	// 			router.push(next as Route);
+	// 		} else {
+	// 			router.push('/');
+	// 		}
+	// 	} catch (error: any) {
+	// 		if (error instanceof AuthenticationError) {
+	// 			return { [FORM_ERROR]: 'Sorry, those credentials are invalid' };
+	// 		} else {
+	// 			return {
+	// 				[FORM_ERROR]:
+	// 					'Sorry, we had an unexpected error. Please try again. - ' +
+	// 					error.toString(),
+	// 			};
+	// 		}
+	// 	}
+	// 	// try {
+	// 	// 	//const response = await signUpRequestFn(values).unwrap();
+	// 	// 	// dispatch(userActions.setUser(response.user));
+	// 	// 	// dispatch(
+	// 	// 	// 	userActions.setAccessToken({ accessToken: response.accessToken })
+	// 	// 	// );
+	// 	// 	// toast.success('Вы успешно вошли в аккаунт!');
+	// 	// 	//navigate('/');
+	// 	// } catch (error) {
+	// 	// 	console.log({ error });
+	// 	// 	// toast.error(
+	// 	// 	// 	getMessageFromError(
+	// 	// 	// 		error,
+	// 	// 	// 		'Не известная ошибка при авторизации пользователя'
+	// 	// 	// 	)
+	// 	// 	// );
+	// 	// }
+	// };
 
-			if (next) {
-				router.push(next as Route);
-			} else {
+	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
+		try {
+			console.log('Form values:', values);
+
+			if (!values.email || !values.password) {
+				throw new Error('Заполните email и пароль');
+			}
+
+			const loginData = {
+				email: values.email,
+				password: values.password,
+			};
+
+			console.log('Sending login data:', loginData);
+
+			const user = await loginMutation(loginData);
+
+			console.log('Login response:', user);
+
+			if (user) {
 				router.push('/');
 			}
-		} catch (error: any) {
+		} catch (error) {
+			console.error('Login error:', error);
+
 			if (error instanceof AuthenticationError) {
-				return { [FORM_ERROR]: 'Sorry, those credentials are invalid' };
+				setError('email', {
+					type: 'manual',
+					message: 'Неверный email или пароль',
+				});
+				setError('password', {
+					type: 'manual',
+					message: 'Неверный email или пароль',
+				});
 			} else {
-				return {
-					[FORM_ERROR]:
-						'Sorry, we had an unexpected error. Please try again. - ' +
-						error.toString(),
-				};
+				setError('email', {
+					type: 'manual',
+					message:
+						error instanceof Error
+							? error.message
+							: 'Произошла ошибка при входе',
+				});
 			}
 		}
-		// try {
-		// 	//const response = await signUpRequestFn(values).unwrap();
-		// 	// dispatch(userActions.setUser(response.user));
-		// 	// dispatch(
-		// 	// 	userActions.setAccessToken({ accessToken: response.accessToken })
-		// 	// );
-		// 	// toast.success('Вы успешно вошли в аккаунт!');
-		// 	//navigate('/');
-		// } catch (error) {
-		// 	console.log({ error });
-		// 	// toast.error(
-		// 	// 	getMessageFromError(
-		// 	// 		error,
-		// 	// 		'Не известная ошибка при авторизации пользователя'
-		// 	// 	)
-		// 	// );
-		// }
 	};
-
 	return (
 		<Container component='main' className={s.wrapper}>
 			<Box className={s.wrapper_content}>
