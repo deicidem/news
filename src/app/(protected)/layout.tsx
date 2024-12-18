@@ -2,18 +2,23 @@
 
 import '@/app/styles/globals.scss';
 import '@/app/layoutStyled.scss';
-import { getBlitzContext } from '@/app/blitz-server';
-import { redirect } from 'next/navigation';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useEffect } from 'react';
+import { useSession } from '@blitzjs/auth';
 
-export default async function ProtectedLayout({
-	children,
-}: {
-	children: ReactNode;
-}) {
-	const ctx = await getBlitzContext();
-	if (!ctx.session.$isAuthorized()) {
-		redirect('/login');
+export default function ProtectedLayout({ children }: { children: ReactNode }) {
+	const router = useRouter();
+	const session = useSession();
+
+	useEffect(() => {
+		if (!session.userId) {
+			router.push('/login');
+		}
+	}, [session, router]);
+
+	if (!session.userId) {
+		return null;
 	}
-	return children;
+
+	return <>{children}</>;
 }

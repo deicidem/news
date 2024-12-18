@@ -1,5 +1,9 @@
-import { setupBlitzServer as setupServer } from '@blitzjs/next';
-import { AuthServerPlugin, PrismaStorage } from '@blitzjs/auth';
+import { setupBlitzServer } from '@blitzjs/next';
+import {
+	AuthServerPlugin,
+	PrismaStorage,
+	simpleRolesIsAuthorized,
+} from '@blitzjs/auth';
 import { BlitzLogger } from 'blitz';
 import { RpcServerPlugin } from '@blitzjs/rpc';
 import db from '../../db';
@@ -12,12 +16,13 @@ export const {
 	withBlitzAuth,
 	gSP,
 	gSSP,
-} = setupServer({
+} = setupBlitzServer({
+	middleware: [],
 	plugins: [
 		AuthServerPlugin({
 			cookiePrefix: 'event_management_next',
 			storage: PrismaStorage(db),
-			isAuthorized: () => true,
+			isAuthorized: simpleRolesIsAuthorized,
 		}),
 		RpcServerPlugin({}),
 	],
