@@ -1,5 +1,6 @@
-import { Ctx } from "blitz"
+import { resolver } from '@blitzjs/rpc';
 
-export default async function logout(_: any, ctx: Ctx) {
-  return await ctx.session.$revoke()
-}
+export default resolver.pipe(async (input, ctx) => {
+	await ctx.session.$revoke();
+	return true;
+});

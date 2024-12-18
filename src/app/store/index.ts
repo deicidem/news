@@ -11,19 +11,21 @@ import {
 	REGISTER,
 } from 'redux-persist';
 import { selectedDateSlice } from './slices/selectedDate/selectedDateSlice';
+import { loadingSlice } from '@/app/store/slices/loading/loadingSlice';
 
 const rootReducer = combineReducers({
 	// [userSlice.name]: userSlice.reducer,
 	// [userApi.reducerPath]: userApi.reducer,
 	// [authApi.reducerPath]: authApi.reducer,
 	[selectedDateSlice.name]: selectedDateSlice.reducer,
+	[loadingSlice.name]: loadingSlice.reducer,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
 	version: 1,
-	blacklist: [],
+	blacklist: ['loading'],
 	//[authApi.reducerPath]
 };
 

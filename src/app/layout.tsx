@@ -1,6 +1,6 @@
 'use client';
 import React, { StrictMode } from 'react';
-import { Footer, Header } from '@/widgets';
+import { AppLayout } from '@/widgets/AppLayout';
 import '@/app/styles/globals.scss';
 import './layoutStyled.scss';
 import { Provider } from 'react-redux';
@@ -27,11 +27,12 @@ export default function RootLayout({
 						<QueryClientProvider client={queryClient}>
 							<BlitzProvider>
 								{/*<PersistGate loading={null} persistor={persistor}>*/}
-								<div className='root'>
-									<Header />
-									<div className='wrapper-page'>{children}</div>
-									<Footer />
-								</div>
+								{/*<div className='root'>*/}
+								{/*	<Header />*/}
+								{/*	<div className='wrapper-page'>{children}</div>*/}
+								{/*	<Footer />*/}
+								{/*</div>*/}
+								<AppLayout>{children}</AppLayout>
 								{/*</PersistGate>*/}
 							</BlitzProvider>
 						</QueryClientProvider>

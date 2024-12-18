@@ -1,7 +1,8 @@
 import { Button } from '@/shared/components';
 import { Box } from '@mui/material';
+import { withAdminAuthHOC } from '@/shared/HOCS';
 
-export const AdminPage = () => {
+const AdminPage = () => {
 	return (
 		<div>
 			<h1>This is Admin page</h1>
@@ -26,3 +27,5 @@ export const AdminPage = () => {
 		</div>
 	);
 };
+
+export default withAdminAuthHOC(AdminPage);

@@ -1,0 +1,1 @@
+export { withAdminAuthHOC } from './withAdminAuthHOC';
