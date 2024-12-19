@@ -1,7 +1,6 @@
 :root {
 	--accent-color: rgba(126, 25, 25);
 	--accent-light-color: rgba(169, 37, 37, 0.9);
-	--accent-super-light-color: rgba(255, 195, 195, 0.9);
 	--accent-color-secondary: rgba(126, 25, 25, 0.75);
 	--black-color: rgb(19, 19, 19);
 	--text-secondary: rgb(123 142 152);
@@ -55,6 +54,13 @@ body {
 a {
 	color: inherit;
 	text-decoration: none;
+}
+
+#__next {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--background-light-gray);
 }
 
 @media (prefers-color-scheme: dark) {

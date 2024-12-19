@@ -1,3 +1,3 @@
-import { SignInPage } from '@/pages/authentication/_signInPage';
+import { SignInForm } from '@/widgets/auth';
 
-export default SignInPage;
+export default SignInForm;

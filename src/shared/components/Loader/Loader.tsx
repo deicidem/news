@@ -1,6 +1,10 @@
 import { Box, CircularProgress } from '@mui/material';
 
-export const Loader = () => {
+type LoaderProps = {
+	visible?: boolean;
+};
+
+export const Loader = ({ visible = false }: LoaderProps) => {
 	return (
 		<Box
 			sx={{
@@ -14,6 +18,9 @@ export const Loader = () => {
 				alignItems: 'center',
 				background: 'rgba(0, 0, 0, 0.7)',
 				zIndex: 9999,
+				opacity: visible ? 1 : 0,
+				visibility: visible ? 'visible' : 'hidden',
+				transition: 'opacity 0.3s ease, visibility 0.3s ease',
 			}}>
 			<CircularProgress sx={{ color: 'var(--accent-color)' }} size={60} />
 		</Box>

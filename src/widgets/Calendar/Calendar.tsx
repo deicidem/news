@@ -19,6 +19,7 @@ export const Calendar = ({ onSelectEvent }: TCalendarProps) => {
 	//const [selectedEvent, setSelectedEvent] = useState(null);
 	//const [drawerOpen, setDrawerOpen] = useState(false);
 	const [highlightedDays, setHighlightedDays] = useState<string[]>([]);
+	console.log(highlightedDays);
 
 	useEffect(() => {
 		// Извлекаем даты конференций в формате YYYY-MM-DD

@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useAppDispatch } from '@/shared/hooks/storeHooks';
 import { useAppSelector } from '@/shared/hooks/storeHooks/useAppSelector';
 import {
@@ -13,13 +13,14 @@ import { usePathname } from 'next/navigation';
 export function AppLayout({ children }: { children: ReactNode }) {
 	const dispatch = useAppDispatch();
 	const pathname = usePathname();
-
 	const isLoading = useAppSelector(selectIsLoading);
+	const [content, setContent] = useState<ReactNode>(children);
 
 	useEffect(() => {
 		dispatch(loadingSlice.actions.setLoading(true));
 
 		const timeout = setTimeout(() => {
+			setContent(children);
 			dispatch(loadingSlice.actions.setLoading(false));
 		}, 500);
 
@@ -28,10 +29,10 @@ export function AppLayout({ children }: { children: ReactNode }) {
 
 	return (
 		<>
-			{isLoading && <Loader />}
+			<Loader visible={isLoading} />
 			<div className='root'>
 				<Header />
-				<div className='wrapper-page'>{children}</div>
+				<div className='wrapper-page'>{content}</div>
 				<Footer />
 			</div>
 		</>

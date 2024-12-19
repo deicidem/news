@@ -1,6 +1,8 @@
 import { ComponentType } from 'react';
 import { withAuth } from '@/shared/HOCS/withAuth';
 
-export const withClientAuthHOC = <T extends object>(
+export function withClientAuthHOC<T extends object>(
 	Component: ComponentType<T>
-) => withAuth(Component, ['CLIENT']);
+) {
+	return withAuth(Component, ['CLIENT']);
+}

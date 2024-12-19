@@ -8,7 +8,7 @@ export function withAuth<T extends object>(
 	WrappedComponent: ComponentType<T>,
 	allowedRoles: string[]
 ) {
-	return function WithAuthComponent(props: T) {
+	const WithAuthComponent = (props: T) => {
 		const session = useSession();
 		const router = useRouter();
 
@@ -32,4 +32,10 @@ export function withAuth<T extends object>(
 
 		return <WrappedComponent {...props} />;
 	};
+
+	WithAuthComponent.displayName = `withAuth(${
+		WrappedComponent.displayName || WrappedComponent.name || 'Component'
+	})`;
+
+	return WithAuthComponent;
 }

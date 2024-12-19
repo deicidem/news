@@ -20,6 +20,7 @@ export default function RootLayout({
 				<title>Event Management App</title>
 				<link rel='icon' href='/favicon.ico' />
 				<meta name='msapplication-TileImage' content='' />
+				<meta name='theme-color' content='#232323' />
 			</head>
 			<body>
 				<StrictMode>
