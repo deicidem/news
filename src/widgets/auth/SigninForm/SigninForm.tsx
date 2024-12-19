@@ -13,6 +13,9 @@ import login from '@/features/auth/api/mutations/login';
 import { useRouter } from 'next/navigation';
 import { AuthenticationError } from 'blitz';
 import { SignInFormValues } from '@/widgets/auth/SigninForm/types';
+import { useAppDispatch } from '@/shared/hooks/storeHooks';
+import { authUserSlice } from '@/app/store/slices/user/authUserSlice';
+import { authUserActions } from '@/app/store/slices/user';
 
 export const SignInForm = () => {
 	const router = useRouter();
@@ -30,6 +33,7 @@ export const SignInForm = () => {
 		},
 		resolver: yupResolver(signInFormSchema),
 	});
+	const dispatch = useAppDispatch();
 
 	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
 		try {
@@ -42,6 +46,7 @@ export const SignInForm = () => {
 			};
 			const user = await loginMutation(loginData);
 			if (user) {
+				dispatch(authUserActions.setAuthUser(true));
 				router.push('/');
 			}
 		} catch (error) {
@@ -67,7 +72,7 @@ export const SignInForm = () => {
 	};
 	return (
 		<Container component='main' className={s.wrapper}>
-			<Box className={s.wrapper_content}>
+			<Box className={s.wrapper_content} sx={{ marginTop: '15%' }}>
 				<HeaderText text='Войти' size='h1' />
 				<Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 					<Box

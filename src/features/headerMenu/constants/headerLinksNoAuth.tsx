@@ -1,13 +1,16 @@
-import { EventsIcon, AccountIcon } from '@/shared/icons';
+import { AccountIcon } from '@/shared/icons';
 import { THeaderLinks } from '@/features/headerMenu/types';
+import { Box } from '@mui/material';
+import { BodyText } from '@/shared/components';
 
 export const headerLinksNoAuth: THeaderLinks[] = [
 	{
-		link: '/events',
-		icon: <EventsIcon />,
-	},
-	{
 		link: '/login',
-		icon: <AccountIcon />,
+		icon: (
+			<Box display='flex' flexDirection='column' alignItems='center'>
+				<AccountIcon />
+				<BodyText text='войти' size='p2' />
+			</Box>
+		),
 	},
 ];

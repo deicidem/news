@@ -54,7 +54,7 @@ export const SignUpForm = () => {
 
 	return (
 		<Container component='main' className={s.wrapper}>
-			<Box className={s.wrapper_content}>
+			<Box className={s.wrapper_content} sx={{ marginTop: '5%' }}>
 				<HeaderText text='Регистрация' size='h1' />
 				<Box
 					component='form'

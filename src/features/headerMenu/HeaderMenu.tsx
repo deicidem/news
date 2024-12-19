@@ -30,7 +30,7 @@ export const HeaderMenu = () => {
 	const navLinks: THeaderLinks[] = useMemo(() => {
 		if (!session.userId) return headerLinksNoAuth;
 		return session.role === 'ADMIN' ? headerLinksAdmin : headerLinksClient;
-	}, [session.userId, session.role]);
+	}, [session]);
 
 	return (
 		<Box className={s.wrapper}>

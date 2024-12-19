@@ -12,9 +12,10 @@ import {
 } from 'redux-persist';
 import { selectedDateSlice } from './slices/selectedDate/selectedDateSlice';
 import { loadingSlice } from '@/app/store/slices/loading/loadingSlice';
+import { authUserSlice } from '@/app/store/slices/user/authUserSlice';
 
 const rootReducer = combineReducers({
-	// [userSlice.name]: userSlice.reducer,
+	[authUserSlice.name]: authUserSlice.reducer,
 	// [userApi.reducerPath]: userApi.reducer,
 	// [authApi.reducerPath]: authApi.reducer,
 	[selectedDateSlice.name]: selectedDateSlice.reducer,
