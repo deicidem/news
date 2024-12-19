@@ -5,7 +5,6 @@ import { useAppDispatch } from '@/shared/hooks/storeHooks';
 import { loadingSlice } from '@/app/store/slices/loading/loadingSlice';
 import { ExitIcon } from '@/shared/icons';
 import { Box } from '@mui/material';
-import { authUserActions } from '@/app/store/slices/user';
 
 export const LogoutButton = () => {
 	const dispatch = useAppDispatch();
@@ -15,7 +14,7 @@ export const LogoutButton = () => {
 		try {
 			dispatch(loadingSlice.actions.setLoading(true));
 			window.location.href = '/login';
-			dispatch(authUserActions.setAuthUser(false));
+			//dispatch(authUserActions.setAuthUser(false));
 			await logoutMutation();
 		} catch (error) {
 			console.error('Logout error:', error);
