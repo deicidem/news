@@ -1,4 +1,4 @@
-import logout from '@/app/(auth)/mutations/logout';
+import logout from '@/features/auth/api/mutations/logout';
 import { useMutation } from '@blitzjs/rpc';
 import { Button } from '@/shared/components';
 import { useAppDispatch } from '@/shared/hooks/storeHooks';

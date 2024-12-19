@@ -1,7 +1,7 @@
 import { resolver } from '@blitzjs/rpc';
 import { AuthenticationError } from 'blitz';
-import db from '../../../../db';
-import type { Role } from '../../../../types';
+import db from '../../../../../db';
+import type { Role } from '../../../../../types';
 import { z } from 'zod';
 
 const Input = z.object({

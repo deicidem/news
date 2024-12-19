@@ -1,4 +1,4 @@
-import login from '@/app/(auth)/mutations/login';
+import login from '@/features/auth/api/mutations/login';
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {

@@ -6,7 +6,7 @@ import { headerLinksClient } from '@/features/headerMenu/constants/headerLinksCl
 import { EventsIcon } from '@/shared/icons';
 import { HeaderText } from '@/shared/components';
 import { useSession } from '@blitzjs/auth';
-import { LogoutButton } from '@/features/logoutBtn/LogoutButton';
+import { LogoutButton } from '@/features/auth/components/logoutBtn/LogoutButton';
 import { headerLinksAdmin } from '@/features/headerMenu/constants/headerLinksAdmin';
 import { headerLinksNoAuth } from '@/features/headerMenu/constants/headerLinksNoAuth';
 import { THeaderLinks } from '@/features/headerMenu/types';

@@ -24,7 +24,8 @@ export const signUpFormSchema = yup.object({
 	email: yup
 		.string()
 		.email(SIGN_UP_FORM_SETTINGS.ERROR_MESSAGES.EMAIL)
-		.required(SIGN_UP_FORM_SETTINGS.ERROR_MESSAGES.EMAIL),
+		.required(SIGN_UP_FORM_SETTINGS.ERROR_MESSAGES.EMAIL)
+		.trim(),
 	password: yup
 		.string()
 		.min(
@@ -36,4 +37,14 @@ export const signUpFormSchema = yup.object({
 			SIGN_UP_FORM_SETTINGS.ERROR_MESSAGES.PASSWORD.MAX
 		)
 		.required(SIGN_UP_FORM_SETTINGS.ERROR_MESSAGES.PASSWORD.REQUIRED),
+	firstName: yup
+		.string()
+		.required('Имя обязательно')
+		.min(2, 'Имя должно быть не короче 2 символов')
+		.max(50, 'Имя должно быть не длиннее 50 символов'),
+	lastName: yup
+		.string()
+		.required('Фамилия обязательна')
+		.min(2, 'Фамилия должна быть не короче 2 символов')
+		.max(50, 'Фамилия должна быть не длиннее 50 символов'),
 });

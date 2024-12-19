@@ -10,16 +10,6 @@ export const password = z
 	.max(100)
 	.transform((str) => str.trim());
 
-export const Signup = z.object({
-	email,
-	password,
-});
-
-export const Login = z.object({
-	email,
-	password: z.string(),
-});
-
 export const ForgotPassword = z.object({
 	email,
 });
@@ -34,8 +24,3 @@ export const ResetPassword = z
 		message: "Passwords don't match",
 		path: ['passwordConfirmation'], // set the path of the error
 	});
-
-export const ChangePassword = z.object({
-	currentPassword: z.string(),
-	newPassword: password,
-});

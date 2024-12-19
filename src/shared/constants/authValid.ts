@@ -15,7 +15,7 @@ export const SIGN_UP_FORM_SETTINGS = {
 	},
 	BOUNDARIES: {
 		PASSWORD: {
-			MIN: 8,
+			MIN: 6,
 			MAX: 24,
 		},
 	},
