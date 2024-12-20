@@ -31,6 +31,7 @@ export const HeaderMenu = () => {
 		if (!session.userId) return headerLinksNoAuth;
 		return session.role === 'ADMIN' ? headerLinksAdmin : headerLinksClient;
 	}, [session]);
+	console.log(session);
 
 	return (
 		<Box className={s.wrapper}>

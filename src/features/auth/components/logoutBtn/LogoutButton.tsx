@@ -13,9 +13,9 @@ export const LogoutButton = () => {
 	const handleLogout = async () => {
 		try {
 			dispatch(loadingSlice.actions.setLoading(true));
+			await logoutMutation();
 			window.location.href = '/login';
 			//dispatch(authUserActions.setAuthUser(false));
-			await logoutMutation();
 		} catch (error) {
 			console.error('Logout error:', error);
 			dispatch(loadingSlice.actions.setLoading(false));
