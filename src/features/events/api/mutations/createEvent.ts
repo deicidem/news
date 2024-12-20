@@ -6,7 +6,9 @@ const CreateEvent = z.object({
 	title: z.string().min(1),
 	startDate: z.date(),
 	endDate: z.date(),
-	formatId: z.string(),
+	formatType: z.enum(['online', 'offline', 'hybrid']),
+	link: z.string().optional(),
+	address: z.string().optional(),
 	description: z.string().optional(),
 	image: z.string(),
 	categoryIds: z.array(z.string()),
@@ -30,12 +32,21 @@ export default resolver.pipe(
 		if (authors.length !== input.authorIds.length) {
 			throw new Error('Some of the selected authors are not administrators');
 		}
+
+		const format = await db.format.create({
+			data: {
+				formatName: input.formatType,
+				link: input.link,
+				address: input.address,
+			},
+		});
+
 		const event = await db.event.create({
 			data: {
 				title: input.title,
 				startDate: input.startDate,
 				endDate: input.endDate,
-				formatId: input.formatId,
+				formatId: format.id,
 				description: input.description,
 				image: input.image,
 				createdIdBy: ctx.session.userId,

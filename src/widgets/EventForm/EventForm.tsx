@@ -1,69 +1,33 @@
-import { useForm, Controller } from 'react-hook-form';
-import { Autocomplete, Box, MenuItem, TextField } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
 import { Button, HeaderText, Loader } from '@/shared/components';
 import { useMutation, useQuery } from '@blitzjs/rpc';
 import { useRouter } from 'next/navigation';
 import createEvent from '@/features/events/api/mutations/createEvent';
 import s from './styled.module.scss';
 import { toast } from 'react-toastify';
-import { Suspense, useEffect, useState } from 'react';
-import getFormats from '@/features/events/api/queries/getFormats';
+import { Suspense, useState } from 'react';
 import getCategories from '@/features/events/api/queries/getCategories';
-import { debounce } from 'lodash';
-import searchAdmins from '@/features/user/api/queries/searchAdmins';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-type EventFormData = {
-	title: string;
-	startDate: string;
-	endDate: string;
-	formatId: string;
-	description?: string;
-	image: string;
-	categoryIds: string[];
-	authorIds: string[];
-};
-
-type EventFormProps = {
-	initialData?: EventFormData;
-	onSubmit?: (data: EventFormData) => void;
-	submitButtonText?: string;
-};
-
-type AdminUser = {
-	id: string;
-	email: string;
-	firstName: string;
-	lastName: string;
-};
+import { SearchAdminUsers } from '@/features/eventForm';
+import {
+	MutationDateRange,
+	MutationSelectField,
+	MutationTextField,
+} from '@/shared/components/mutationsComponent';
+import { SelectFormat } from '@/features/eventForm/selectFormat/SelectFormat';
+import { EventFormData, TEventFormProps } from './types';
+import { formatValidation } from './helpers/formatValidation';
+import { defaultCreateValues } from '@/widgets/EventForm/helpers/defaultCreateValues';
 
 export const EventForm = ({
 	initialData,
 	onSubmit: externalSubmit,
 	submitButtonText = 'Создать событие',
-}: EventFormProps) => {
+}: TEventFormProps) => {
 	const router = useRouter();
 	const [createEventMutation] = useMutation(createEvent);
-	const [searchTerm, setSearchTerm] = useState('');
-	const [admins, setAdmins] = useState<AdminUser[]>([]);
-	const [selectedAdmins, setSelectedAdmins] = useState<AdminUser[]>([]);
-
-	const formatDateForInput = (date: Date) => {
-		return date.toISOString().slice(0, 16);
-	};
-
-	const defaultValues = {
-		title: '',
-		startDate: new Date(),
-		endDate: new Date(Date.now() + 3600000),
-		formatId: '',
-		description: '',
-		image: '',
-		categoryIds: [],
-		authorIds: [],
-	};
 
 	const {
 		register,
@@ -72,31 +36,14 @@ export const EventForm = ({
 		formState: { errors },
 		setValue,
 	} = useForm<EventFormData>({
-		defaultValues: initialData || defaultValues,
+		defaultValues: initialData || defaultCreateValues,
 	});
 
-	const [formats] = useQuery(getFormats, undefined);
 	const [categories] = useQuery(getCategories, undefined);
 
-	const searchAdminUsers = async (email: string) => {
-		if (email.length >= 2) {
-			const foundAdmins = await searchAdmins(email);
-			setAdmins(foundAdmins);
-		} else {
-			setAdmins([]);
-		}
-	};
+	const [selectedAdmins, setSelectedAdmins] = useState<IAdminSearch[]>([]);
 
-	const debouncedSearch = debounce(searchAdminUsers, 300);
-
-	useEffect(() => {
-		debouncedSearch(searchTerm);
-		return () => {
-			debouncedSearch.cancel();
-		};
-	}, [searchTerm]);
-
-	const handleAdminChange = (_: any, value: AdminUser[]) => {
+	const handleAdminChange = (value: IAdminSearch[]) => {
 		setSelectedAdmins(value);
 		setValue(
 			'authorIds',
@@ -105,6 +52,11 @@ export const EventForm = ({
 	};
 
 	const onSubmit = async (data: EventFormData) => {
+		const isFormatValid = formatValidation[data.formatType](data);
+		if (!isFormatValid) {
+			toast.error('Неправильно заполнены поля формата');
+			return;
+		}
 		try {
 			const formattedData = {
 				...data,
@@ -136,136 +88,57 @@ export const EventForm = ({
 					/>
 
 					<form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-						<TextField
+						<MutationTextField
+							name='title'
 							label='Название события'
-							fullWidth
-							{...register('title', { required: 'Обязательное поле' })}
-							error={!!errors.title}
-							helperText={errors.title?.message}
+							register={register}
+							required
+							errors={errors}
 						/>
-
-						<Controller
-							name='startDate'
+						<MutationDateRange
+							startDateName='startDate'
+							endDateName='endDate'
 							control={control}
-							rules={{ required: 'Обязательное поле' }}
-							render={({ field: { onChange, value } }) => (
-								<DateTimePicker
-									label='Дата начала'
-									value={dayjs(value)}
-									onChange={(date) => onChange(date ? date.toDate() : null)}
-									views={['year', 'month', 'day', 'hours', 'minutes']}
-									format='DD.MM.YYYY HH:mm'
-									ampm={false}
-									slotProps={{
-										textField: {
-											fullWidth: true,
-											error: !!errors.startDate,
-											helperText: errors.startDate?.message,
-										},
-									}}
-								/>
-							)}
+							errors={errors}
 						/>
 
-						<Controller
-							name='endDate'
+						<SelectFormat
 							control={control}
-							rules={{ required: 'Обязательное поле' }}
-							render={({ field: { onChange, value } }) => (
-								<DateTimePicker
-									label='Дата окончания'
-									value={dayjs(value)}
-									onChange={(date) => onChange(date ? date.toDate() : null)}
-									views={['year', 'month', 'day', 'hours', 'minutes']}
-									format='DD.MM.YYYY HH:mm'
-									ampm={false}
-									minDateTime={dayjs(value)}
-									slotProps={{
-										textField: {
-											fullWidth: true,
-											error: !!errors.endDate,
-											helperText: errors.endDate?.message,
-										},
-									}}
-								/>
-							)}
+							errors={errors}
+							register={register}
 						/>
-
-						<Controller
-							name='formatId'
-							control={control}
-							rules={{ required: 'Обязательное поле' }}
-							render={({ field }) => (
-								<TextField
-									select
-									label='Формат'
-									fullWidth
-									error={!!errors.formatId}
-									helperText={errors.formatId?.message}
-									{...field}>
-									{formats?.map((format) => (
-										<MenuItem key={format.id} value={format.id}>
-											{format.formatName}
-										</MenuItem>
-									))}
-								</TextField>
-							)}
-						/>
-
-						<Controller
+						<MutationSelectField
 							name='categoryIds'
+							label='Категории'
 							control={control}
-							rules={{ required: 'Выберите хотя бы одну категорию' }}
-							render={({ field }) => (
-								<TextField
-									select
-									label='Категории'
-									fullWidth
-									SelectProps={{ multiple: true }}
-									error={!!errors.categoryIds}
-									helperText={errors.categoryIds?.message}
-									{...field}>
-									{categories?.map((category) => (
-										<MenuItem key={category.id} value={category.id}>
-											{category.title}
-										</MenuItem>
-									))}
-								</TextField>
-							)}
-						/>
-
-						<Autocomplete
+							errors={errors}
+							options={categories || []}
+							displayKey='title'
 							multiple
-							options={admins}
-							value={selectedAdmins}
-							onChange={handleAdminChange}
-							getOptionLabel={(option) =>
-								`${option.email} (${option.firstName} ${option.lastName})`
-							}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label='Соавторы'
-									onChange={(e) => setSearchTerm(e.target.value)}
-									helperText='Введите минимум 2 символа для поиска'
-								/>
-							)}
+							required
 						/>
 
-						<TextField
+						<MutationTextField
+							name='description'
 							label='Описание'
+							register={register}
+							errors={errors}
 							multiline
-							rows={4}
 							fullWidth
-							{...register('description')}
+							rows={4}
 						/>
 
-						<TextField
+						<SearchAdminUsers
+							selectedAdmins={selectedAdmins}
+							onSelectedAdmins={handleAdminChange}
+						/>
+
+						<MutationTextField
+							name='image'
 							label='Ссылка на изображение'
-							fullWidth
-							{...register('image', { required: 'Обязательное поле' })}
-							error={!!errors.image}
-							helperText={errors.image?.message}
+							register={register}
+							errors={errors}
+							required
 						/>
 
 						<Box className={s.buttons}>

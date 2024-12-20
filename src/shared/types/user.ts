@@ -8,4 +8,11 @@ declare global {
 		lastName: string;
 		patronymic?: string;
 	}
+
+	export interface IAdminSearch {
+		id: string;
+		email: string;
+		firstName: string;
+		lastName: string;
+	}
 }
