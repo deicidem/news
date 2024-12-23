@@ -1,5 +1,6 @@
 import LeftArrowIcon from './navigationIcons/leftArrow.svg';
 import RightArrowIcon from './navigationIcons/rightArrow.svg';
+import ThreeDotsVertical from './navigationIcons/uil_ellipsis-h.svg';
 
 import AccountIcon from './headerIcons/uil_user-square.svg';
 import ProfileClientIcon from './headerIcons/uil_user.svg';
@@ -22,4 +23,4 @@ export {
 	ProfileClientIcon,
 };
 ///navigation icons
-export { LeftArrowIcon, RightArrowIcon };
+export { LeftArrowIcon, RightArrowIcon, ThreeDotsVertical };

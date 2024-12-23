@@ -1,0 +1,16 @@
+.menuBtn{
+	width: 28px;
+	height: 28px;
+	border-radius: 0 0 0 2px;
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	&:hover{
+		background: var(--accent-light-color);
+		border-radius: 0 0 0 2px;
+		& > * {
+			background: var(--accent-light-color);
+		}
+	}
+}

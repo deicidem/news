@@ -1,21 +1,18 @@
+'use client';
 import s from './cardEventStyled.module.scss';
 import { BodyText, HeaderText } from '@/shared/components';
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import { formatDateToString } from '@/shared/utils';
+import { EditEventBtn } from '@/features/editEventBtn';
 
 type TCardEventProps = {
 	event: any;
 };
 export const CardEvent = ({ event }: TCardEventProps) => {
 	return (
-		<Link href={`/events/${event.id}`}>
+		<Link href={`/events/${event.id}`} className={s.link}>
 			<Box className={s.cardWrapper}>
-				{/*<Link*/}
-				{/*	to={'/'}*/}
-				{/*	state={{ from: location }}*/}
-				{/*	className='card-wrapper link-reset'>*/}
-				{/*</Link>*/}
 				<Box className={s.cardWrapper_imgBox}>
 					<Box className={s.cardWrapper_imgBox_dates}>
 						<BodyText
@@ -31,6 +28,7 @@ export const CardEvent = ({ event }: TCardEventProps) => {
 						/>
 					</Box>
 					<img src={event.image} alt='event' />
+					<EditEventBtn />
 				</Box>
 				<Box className={s.cardWrapper_info}>
 					<HeaderText

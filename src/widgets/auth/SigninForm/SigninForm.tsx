@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import { AuthenticationError } from 'blitz';
 import { SignInFormValues } from '@/widgets/auth/SigninForm/types';
 import { useAppDispatch } from '@/shared/hooks/storeHooks';
-import { authUserSlice } from '@/app/store/slices/user/authUserSlice';
 import { authUserActions } from '@/app/store/slices/user';
 
 export const SignInForm = () => {
@@ -46,7 +45,12 @@ export const SignInForm = () => {
 			};
 			const user = await loginMutation(loginData);
 			if (user) {
-				dispatch(authUserActions.setAuthUser(true));
+				dispatch(
+					authUserActions.setAuthUser({
+						isAuth: true,
+						role: user.role as 'CLIENT' | 'ADMIN',
+					})
+				);
 				router.push('/');
 			}
 		} catch (error) {
