@@ -1,0 +1,1 @@
+ALTER TABLE "news_user" ADD COLUMN "password" text NOT NULL;

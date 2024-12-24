@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import Link from "next/link";
+import DbTest from "./DbTest";
 
 export default function HomePage() {
   return (
@@ -32,6 +33,7 @@ export default function HomePage() {
             </div>
           </Link>
         </div>
+        <DbTest />
       </div>
     </main>
   );
