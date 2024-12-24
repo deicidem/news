@@ -1,7 +1,9 @@
 export type EventFormData = {
+	id?: string;
+	formatId?: string;
 	title: string;
-	startDate: string;
-	endDate: string;
+	startDate: string | Date;
+	endDate: string | Date;
 	formatType: 'online' | 'offline' | 'hybrid';
 	link?: string;
 	address?: string;

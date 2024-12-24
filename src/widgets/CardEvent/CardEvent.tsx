@@ -8,8 +8,10 @@ import { EditEventBtn } from '@/features/editEventBtn';
 
 type TCardEventProps = {
 	event: any;
+
+	onDelete?: () => void;
 };
-export const CardEvent = ({ event }: TCardEventProps) => {
+export const CardEvent = ({ event, onDelete }: TCardEventProps) => {
 	return (
 		<Link href={`/events/${event.id}`} className={s.link}>
 			<Box className={s.cardWrapper}>
@@ -28,7 +30,7 @@ export const CardEvent = ({ event }: TCardEventProps) => {
 						/>
 					</Box>
 					<img src={event.image} alt='event' />
-					<EditEventBtn />
+					<EditEventBtn event={event} onDelete={onDelete} />
 				</Box>
 				<Box className={s.cardWrapper_info}>
 					<HeaderText

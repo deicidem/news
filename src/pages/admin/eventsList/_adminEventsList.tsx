@@ -11,7 +11,7 @@ import s from './styled.module.scss';
 
 const AdminEventsList = () => {
 	const router = useRouter();
-	const [events] = useQuery(getAdminEvents, null);
+	const [events, { refetch }] = useQuery(getAdminEvents, null);
 
 	return (
 		<Box className={s.wrapper}>
@@ -26,7 +26,7 @@ const AdminEventsList = () => {
 			<Suspense fallback={<Loader visible={true} />}>
 				<Box className={s.eventsList}>
 					{events?.map((event) => (
-						<CardEvent key={event.id} event={event} />
+						<CardEvent key={event.id} event={event} onDelete={refetch} />
 					))}
 				</Box>
 			</Suspense>
