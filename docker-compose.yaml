@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine # Используем образ PostgreSQL версии 15 на базе Alpine
+    container_name: postgres_container
+    restart: always
+    ports:
+      - "5432:5432" # Проброс порта 5432
+    environment:
+      POSTGRES_USER: postgres      # Имя пользователя PostgreSQL
+      POSTGRES_PASSWORD: postgres  # Пароль пользователя
+      POSTGRES_DB: news        # Имя базы данных
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Сохранение данных в volume
+
+volumes:
+  postgres_data:
+    driver: local
