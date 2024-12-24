@@ -1,6 +1,5 @@
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 import { TextField, TextFieldProps } from '@mui/material';
-import s from './styled.module.scss';
 
 type FormTextFieldProps = {
 	name: string;

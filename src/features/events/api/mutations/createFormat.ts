@@ -4,19 +4,19 @@ import { z } from 'zod';
 
 const CreateFormat = z
 	.object({
-		formatType: z.enum(['online', 'offline', 'hybrid']),
+		formatType: z.enum(['онлайн', 'офлайн', 'гибрид']),
 		link: z.string().optional(),
 		address: z.string().optional(),
 	})
 	.refine(
 		(data) => {
-			if (data.formatType === 'online' && !data.link) {
+			if (data.formatType === 'онлайн' && !data.link) {
 				return false;
 			}
-			if (data.formatType === 'offline' && !data.address) {
+			if (data.formatType === 'офлайн' && !data.address) {
 				return false;
 			}
-			if (data.formatType === 'hybrid' && (!data.link || !data.address)) {
+			if (data.formatType === 'гибрид' && (!data.link || !data.address)) {
 				return false;
 			}
 			return true;

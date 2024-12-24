@@ -31,9 +31,7 @@ export default resolver.pipe(
 			throw new Error('Event not found or you are not authorized to delete it');
 		}
 
-		// Удаляем связанные записи в промежуточных таблицах
 		await db.$transaction([
-			// Удаление связей с категориями
 			db.event.update({
 				where: { id },
 				data: {
@@ -43,7 +41,6 @@ export default resolver.pipe(
 				},
 			}),
 
-			// Удаление связей с авторами
 			db.event.update({
 				where: { id },
 				data: {
@@ -53,7 +50,6 @@ export default resolver.pipe(
 				},
 			}),
 
-			// Удаление связей с участниками
 			db.event.update({
 				where: { id },
 				data: {
@@ -65,12 +61,10 @@ export default resolver.pipe(
 				},
 			}),
 
-			// Удаление самого события
 			db.event.delete({
 				where: { id },
 			}),
 
-			// Удаление связанного формата
 			db.format.delete({
 				where: { id: event.formatId },
 			}),

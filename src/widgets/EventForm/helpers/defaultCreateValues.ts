@@ -2,7 +2,7 @@ export const defaultCreateValues = {
 	title: '',
 	startDate: new Date(),
 	endDate: new Date(Date.now() + 3600000),
-	formatType: '',
+	formatType: '' as 'онлайн' | 'офлайн' | 'гибрид',
 	description: '',
 	image: '',
 	categoryIds: [],

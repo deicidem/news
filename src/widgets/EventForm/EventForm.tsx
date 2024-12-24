@@ -1,25 +1,24 @@
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
 import { Button, HeaderText, Loader } from '@/shared/components';
-import { useMutation, useQuery } from '@blitzjs/rpc';
+import { useMutation } from '@blitzjs/rpc';
 import { useRouter } from 'next/navigation';
 import createEvent from '@/features/events/api/mutations/createEvent';
 import s from './styled.module.scss';
 import { toast } from 'react-toastify';
-import { Suspense, useState } from 'react';
-import getCategories from '@/features/events/api/queries/getCategories';
+import { Suspense, useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { SearchAdminUsers } from '@/features/eventForm';
 import {
 	MutationDateRange,
-	MutationSelectField,
 	MutationTextField,
 } from '@/shared/components/mutationsComponent';
 import { SelectFormat } from '@/features/eventForm/selectFormat/SelectFormat';
 import { EventFormData, TEventFormProps } from './types';
 import { formatValidation } from './helpers/formatValidation';
 import { defaultCreateValues } from '@/widgets/EventForm/helpers/defaultCreateValues';
+import { SelectCategories } from '@/features/eventForm/categorySelectField/SelectCategories';
 
 export const EventForm = ({
 	initialData,
@@ -39,10 +38,26 @@ export const EventForm = ({
 		defaultValues: initialData || defaultCreateValues,
 	});
 
-	const [categories] = useQuery(getCategories, undefined);
-
+	const [categories, setCategoriesData] = useState<ICategory[]>([]);
 	const [selectedAdmins, setSelectedAdmins] = useState<IAdminSearch[]>([]);
 
+	useEffect(() => {
+		if (initialData?.authorIds && Array.isArray(initialData.authorIds)) {
+			const initialAdmins = categories.filter((admin) =>
+				initialData.authorIds.includes(admin.id)
+			);
+			setSelectedAdmins(initialAdmins);
+		}
+
+		if (initialData) {
+			setValue('formatType', initialData.formatType);
+			if (initialData.link) setValue('link', initialData.link);
+			if (initialData.address) setValue('address', initialData.address);
+			if (Array.isArray(initialData.categoryIds)) {
+				setValue('categoryIds', initialData.categoryIds);
+			}
+		}
+	}, [initialData, categories]);
 	const handleAdminChange = (value: IAdminSearch[]) => {
 		setSelectedAdmins(value);
 		setValue(
@@ -69,15 +84,21 @@ export const EventForm = ({
 				await externalSubmit(formattedData);
 			} else {
 				await createEventMutation(formattedData);
-				toast.success('Событие успешно создано!');
+				toast.success(initialData ? 'Событие обновлено!' : 'Событие создано!');
 				router.push('/admin/managerEvents');
 			}
 		} catch (error) {
-			toast.error('Произошла ошибка при создании события');
+			toast.error(
+				initialData
+					? 'Произошла ошибка при обновлении события'
+					: 'Произошла ошибка при создании события'
+			);
 			console.error('Error creating event:', error);
 		}
 	};
 
+	console.log(defaultCreateValues);
+	console.log(initialData);
 	return (
 		<Suspense fallback={<Loader visible={true} />}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -106,16 +127,15 @@ export const EventForm = ({
 							control={control}
 							errors={errors}
 							register={register}
+							onSetValue={setValue}
+							defaultFormatType={initialData?.formatType || null}
 						/>
-						<MutationSelectField
-							name='categoryIds'
-							label='Категории'
-							control={control}
+						<SelectCategories
+							categories={categories}
+							onSetCategoriesData={setCategoriesData}
 							errors={errors}
 							options={categories || []}
-							displayKey='title'
-							multiple
-							required
+							control={control}
 						/>
 
 						<MutationTextField

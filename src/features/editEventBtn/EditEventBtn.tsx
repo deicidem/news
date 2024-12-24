@@ -43,7 +43,7 @@ export const EditEventBtn = ({ event, onDelete }: TEditEventBtnProps) => {
 
 	const idEvent = String(event.id);
 	const handleEdit = () => {
-		router.push(`/admin/managerEvents/edit-${idEvent}`);
+		router.push(`/admin/managerEvents/edit/${idEvent}`);
 	};
 
 	const handleDeleteClick = () => {

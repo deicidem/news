@@ -3,10 +3,12 @@ import db from 'db';
 import { z } from 'zod';
 
 const CreateEvent = z.object({
+	id: z.string().optional(),
+	formatId: z.string().optional(),
 	title: z.string().min(1),
 	startDate: z.date(),
 	endDate: z.date(),
-	formatType: z.enum(['online', 'offline', 'hybrid']),
+	formatType: z.enum(['онлайн', 'офлайн', 'гибрид']),
 	link: z.string().optional(),
 	address: z.string().optional(),
 	description: z.string().optional(),
@@ -33,37 +35,75 @@ export default resolver.pipe(
 			throw new Error('Some of the selected authors are not administrators');
 		}
 
-		const format = await db.format.create({
-			data: {
-				formatName: input.formatType,
-				link: input.link,
-				address: input.address,
-			},
-		});
+		const isUpdate = !!input.id;
 
-		const event = await db.event.create({
-			data: {
-				title: input.title,
-				startDate: input.startDate,
-				endDate: input.endDate,
-				formatId: format.id,
-				description: input.description,
-				image: input.image,
-				createdIdBy: ctx.session.userId,
-				categories: {
-					connect: input.categoryIds.map((id) => ({ id })),
+		const formatData = {
+			formatName: input.formatType,
+			link: input.link,
+			address: input.address,
+		};
+
+		let format;
+		if (isUpdate && input.formatId) {
+			format = await db.format.update({
+				where: { id: input.formatId },
+				data: formatData,
+			});
+		} else {
+			format = await db.format.create({
+				data: formatData,
+			});
+		}
+
+		const eventData = {
+			title: input.title,
+			startDate: input.startDate,
+			endDate: input.endDate,
+			formatId: format.id,
+			description: input.description,
+			image: input.image,
+			createdIdBy: userId,
+		};
+
+		let event;
+		if (isUpdate) {
+			event = await db.event.update({
+				where: { id: input.id },
+				data: {
+					...eventData,
+					categories: {
+						set: input.categoryIds.map((id) => ({ id })),
+					},
+					authors: {
+						set: authors.map((author) => ({ id: author.id })),
+					},
 				},
-				authors: {
-					connect: authors.map((author) => ({ id: author.id })),
+				include: {
+					format: true,
+					categories: true,
+					createdBy: true,
+					authors: true,
 				},
-			},
-			include: {
-				format: true,
-				categories: true,
-				createdBy: true,
-				authors: true,
-			},
-		});
+			});
+		} else {
+			event = await db.event.create({
+				data: {
+					...eventData,
+					categories: {
+						connect: input.categoryIds.map((id) => ({ id })),
+					},
+					authors: {
+						connect: authors.map((author) => ({ id: author.id })),
+					},
+				},
+				include: {
+					format: true,
+					categories: true,
+					createdBy: true,
+					authors: true,
+				},
+			});
+		}
 
 		return event;
 	}

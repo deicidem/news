@@ -4,7 +4,7 @@ export type EventFormData = {
 	title: string;
 	startDate: string | Date;
 	endDate: string | Date;
-	formatType: 'online' | 'offline' | 'hybrid';
+	formatType: 'онлайн' | 'офлайн' | 'гибрид';
 	link?: string;
 	address?: string;
 	description?: string;

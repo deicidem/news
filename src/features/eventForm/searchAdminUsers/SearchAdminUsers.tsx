@@ -2,6 +2,7 @@ import searchAdmins from '@/features/user/api/queries/searchAdmins';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
+import { autocompleteStyles } from '@/shared/styles';
 
 type TSearchAdminUsersProps = {
 	selectedAdmins: IAdminSearch[];
@@ -17,7 +18,10 @@ export const SearchAdminUsers = ({
 	const searchAdminUsers = async (email: string) => {
 		if (email.length >= 2) {
 			const foundAdmins = await searchAdmins(email);
-			setAdmins(foundAdmins);
+			const filteredAdmins = foundAdmins.filter(
+				(admin) => !selectedAdmins.some((selected) => selected.id === admin.id)
+			);
+			setAdmins(filteredAdmins);
 		} else {
 			setAdmins([]);
 		}
@@ -33,7 +37,10 @@ export const SearchAdminUsers = ({
 	}, [searchTerm]);
 
 	const handleAdminChange = (_, value: IAdminSearch[]) => {
-		onSelectedAdmins(value);
+		const uniqueAdmins = Array.from(
+			new Map(value.map((admin) => [admin.id, admin])).values()
+		);
+		onSelectedAdmins(uniqueAdmins);
 	};
 
 	return (
@@ -54,6 +61,7 @@ export const SearchAdminUsers = ({
 						helperText='Введите минимум 2 символа для поиска'
 					/>
 				)}
+				sx={autocompleteStyles}
 			/>
 		</>
 	);
