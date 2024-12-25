@@ -11,9 +11,11 @@ import { headerLinksAdmin } from '@/features/header/constants/headerLinksAdmin';
 import { headerLinksNoAuth } from '@/features/header/constants/headerLinksNoAuth';
 import { THeaderLinks } from '@/features/header/ui/HeaderMenu/types';
 import { useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export const HeaderMenu = () => {
 	const session = useSession();
+	const pathname = usePathname();
 
 	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const [prevUserId, setPrevUserId] = useState(session.userId);
@@ -35,7 +37,7 @@ export const HeaderMenu = () => {
 	return (
 		<Box className={s.wrapper}>
 			<Box className={s.wrapper_content}>
-				<Link href='/'>
+				<Link href='/' onClick={(e) => pathname === '/' && e.preventDefault()}>
 					<Box className={s.wrapper_logo}>
 						<EventsIcon />
 						<HeaderText text='EVENTCONF' size='h3' color='var(--text-form)' />
@@ -43,7 +45,12 @@ export const HeaderMenu = () => {
 				</Link>
 				<Box className={s.wrapper_content_icons}>
 					{navLinks.map((item) => (
-						<Link href={item.link} key={`${item.link}`}>
+						<Link
+							href={item.link}
+							key={`${item.link}`}
+							onClick={(e) =>
+								pathname === (item.link as UrlObject) && e.preventDefault()
+							}>
 							{item.icon}
 						</Link>
 					))}

@@ -14,4 +14,18 @@
 		height: 236px;
 		padding: 20px 0 0;
 	}
+
+	@media screen and (width <= 500px) {
+		padding: 15px 5px;
+
+		.MuiGrid-item {
+			text-align: center;
+		}
+	}
+}
+
+.textBlockFooter{
+	display: flex;
+	flex-direction: column;
+	max-width: 300px;
 }
