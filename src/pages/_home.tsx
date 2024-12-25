@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Button, Dropdown } from '@/shared/components';
+import { Button } from '@/shared/components';
 
 export default function _home() {
 	return (

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { TCategorySelectFieldProps } from '@/features/eventForm/categorySelectField/types';
+import { TCategorySelectFieldProps } from '@/features/event/ui/eventForm/categorySelectField/types';
 import { autocompleteStyles } from '@/shared/styles';
 
 export const CategorySelectField = ({

@@ -8,7 +8,6 @@ const initialState: SelectedDateState = {
 	date: null,
 };
 
-const SELECTED_DATE_SLICE_NAME = 'selectedDate';
 export const selectedDateSlice = createSlice({
 	name: 'SELECTED_DATE_SLICE_NAME',
 	initialState,

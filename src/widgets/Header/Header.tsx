@@ -1,5 +1,5 @@
 import { AppBar } from '@mui/material';
-import { HeaderMenu } from '@/features/headerMenu';
+import { HeaderMenu } from '@/features/header/ui';
 
 export const Header = () => {
 	return (

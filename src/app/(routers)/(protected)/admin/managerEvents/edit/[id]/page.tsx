@@ -6,7 +6,7 @@ import { EventFormData } from '@/widgets/EventForm/types';
 import { Loader } from '@/shared/components';
 import { useQuery } from '@blitzjs/rpc';
 import { useParams } from 'next/navigation';
-import getEventById from '@/features/events/api/queries/getEventById';
+import getEventById from '@/features/event/api/queries/getEventById';
 
 const EditEventPage = () => {
 	const params = useParams();

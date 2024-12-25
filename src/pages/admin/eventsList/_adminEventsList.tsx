@@ -6,7 +6,7 @@ import { withAdminAuthHOC } from '@/shared/HOCS';
 import { CardEvent } from '@/widgets';
 import { useQuery } from '@blitzjs/rpc';
 import { Suspense } from 'react';
-import getAdminEvents from '@/features/events/api/queries/getAdminEvents';
+import getAdminEvents from '@/features/event/api/queries/getAdminEvents';
 import s from './styled.module.scss';
 
 const AdminEventsList = () => {

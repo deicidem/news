@@ -8,12 +8,12 @@ import {
 } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/shared/hooks/storeHooks/useAppSelector';
+import { useAppSelector } from '@/shared/hooks/storeHooks';
 import { authUserSelectors } from '@/app/store/slices/user';
 import { Button, Dropdown } from '@/shared/components';
 import s from './styled.module.scss';
 import { useMutation } from '@blitzjs/rpc';
-import deleteEvent from '@/features/events/api/mutations/deleteEvent';
+import deleteEvent from '@/features/event/api/mutations/deleteEvent';
 import { toast } from 'react-toastify';
 import { IEvent } from '@/entities/event';
 

@@ -1,7 +1,6 @@
 'use client';
 import { ReactNode, useEffect, useState } from 'react';
-import { useAppDispatch } from '@/shared/hooks/storeHooks';
-import { useAppSelector } from '@/shared/hooks/storeHooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/storeHooks';
 import {
 	loadingSlice,
 	selectIsLoading,

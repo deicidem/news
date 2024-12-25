@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@blitzjs/rpc';
-import getCategories from '@/features/events/api/queries/getCategories';
+import getCategories from '@/features/event/api/queries/getCategories';
 import { toast } from 'react-toastify';
 import { CategorySelectField } from './CategorySelectField';
 import { TSelectCategoriesProps } from './types';

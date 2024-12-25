@@ -1,26 +1,27 @@
+import { Suspense, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box } from '@mui/material';
-import { Button, HeaderText, Loader } from '@/shared/components';
+import { toast } from 'react-toastify';
 import { useMutation } from '@blitzjs/rpc';
 import { useRouter } from 'next/navigation';
-import createEvent from '@/features/events/api/mutations/createEvent';
-import s from './styled.module.scss';
-import { toast } from 'react-toastify';
-import { Suspense, useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { SearchAdminUsers } from '@/features/eventForm';
+import createEvent from '@/features/event/api/mutations/createEvent';
+import {
+	SearchAdminUsers,
+	SelectFormat,
+	SelectCategories,
+} from '@/features/event/ui/eventForm';
+import { Button, HeaderText, Loader } from '@/shared/components';
 import {
 	MutationDateRange,
 	MutationTextField,
 } from '@/shared/components/mutationsComponent';
-import { SelectFormat } from '@/features/eventForm/selectFormat/SelectFormat';
 import { EventFormData, TEventFormProps } from './types';
+import { defaultCreateValues } from './helpers/defaultCreateValues';
 import { formatValidation } from './helpers/formatValidation';
-import { defaultCreateValues } from '@/widgets/EventForm/helpers/defaultCreateValues';
-import { SelectCategories } from '@/features/eventForm/categorySelectField/SelectCategories';
+import s from './styled.module.scss';
 import searchAdmins from '@/features/user/api/queries/searchAdmins';
-import { SearchMultiSelect } from '@/shared/components/mutationsComponent/SearchMultiSelect/SearchMultiSelect';
 
 export const EventForm = ({
 	initialData,
@@ -44,19 +45,6 @@ export const EventForm = ({
 	const [selectedAdmins, setSelectedAdmins] = useState<IAdminSearch[]>([]);
 
 	useEffect(() => {
-		// if (initialData?.authorIds && Array.isArray(initialData.authorIds)) {
-		// 	const initialAdmins = selectedAdmins.filter((admin) =>
-		// 		initialData.authorIds.includes(admin.id)
-		// 	);
-		// 	console.log(initialData?.authorIds);
-		// 	console.log(initialAdmins);
-		// 	setSelectedAdmins(initialAdmins);
-		// }
-
-		// if (Array.isArray(initialData?.authorIds)) {
-		// 	setValue('authorIds', initialData?.authorIds);
-		// }
-
 		if (initialData) {
 			setValue('formatType', initialData.formatType);
 			if (initialData.link) setValue('link', initialData.link);
@@ -115,10 +103,6 @@ export const EventForm = ({
 		}
 	};
 
-	// console.log(categories);
-	// console.log(initialData?.categoryIds);
-	console.log(selectedAdmins);
-	console.log(initialData?.authorIds);
 	return (
 		<Suspense fallback={<Loader visible={true} />}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -154,7 +138,6 @@ export const EventForm = ({
 							categories={categories}
 							onSetCategoriesData={setCategoriesData}
 							errors={errors}
-							options={categories || []}
 							control={control}
 						/>
 

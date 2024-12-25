@@ -4,19 +4,10 @@ import {
 } from '@/shared/components/mutationsComponent';
 import { useEffect, useState } from 'react';
 import {
-	Control,
-	FieldErrors,
-	UseFormRegister,
-	UseFormSetValue,
-} from 'react-hook-form';
+	TFormat,
+	TSelectFormatProps,
+} from '@/features/event/ui/eventForm/selectFormat/types';
 
-type TSelectFormatProps = {
-	control: Control<any>;
-	errors: FieldErrors;
-	register: UseFormRegister<any>;
-	onSetValue: UseFormSetValue<any>;
-	defaultFormatType: 'онлайн' | 'офлайн' | 'гибрид' | null;
-};
 export const SelectFormat = ({
 	control,
 	register,
@@ -24,9 +15,9 @@ export const SelectFormat = ({
 	onSetValue,
 	defaultFormatType,
 }: TSelectFormatProps) => {
-	const [selectedFormatType, setSelectedFormatType] = useState<
-		'онлайн' | 'офлайн' | 'гибрид' | null
-	>(defaultFormatType || null);
+	const [selectedFormatType, setSelectedFormatType] = useState<TFormat>(
+		defaultFormatType || null
+	);
 	useEffect(() => {
 		if (defaultFormatType) {
 			onSetValue('formatType', defaultFormatType);
@@ -35,7 +26,7 @@ export const SelectFormat = ({
 	}, [defaultFormatType]);
 
 	const handleFormatTypeChange = (value: string) => {
-		const formatType = value as 'онлайн' | 'офлайн' | 'гибрид';
+		const formatType = value as TFormat;
 		setSelectedFormatType(formatType);
 		if (formatType === 'онлайн') {
 			onSetValue('address', '');

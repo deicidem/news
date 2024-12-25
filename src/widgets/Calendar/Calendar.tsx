@@ -5,9 +5,9 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './ui/calendar.scss';
-import { HighlightedCalendarDays } from '@/features/highlightedCalendarDays';
 import { eventsMocks } from '@/shared/api/mocks';
 import { formatDateToString } from '@/shared/utils/formatDateToString';
+import { HighlightedCalendarDays } from '@/features/calendar/ui';
 
 type TCalendarProps = {
 	onSelectEvent?: (data: string | Date) => void;

@@ -1,5 +1,5 @@
 import { AccountIcon } from '@/shared/icons';
-import { THeaderLinks } from '@/features/headerMenu/types';
+import { THeaderLinks } from '@/features/header/ui/HeaderMenu/types';
 import { Box } from '@mui/material';
 import { BodyText } from '@/shared/components';
 

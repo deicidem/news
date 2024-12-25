@@ -1,1 +1,0 @@
-export { HighlightedCalendarDays } from './HighlightedCalendarDays';

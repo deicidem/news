@@ -1,15 +1,15 @@
 'use client';
 import { Box } from '@mui/material';
-import s from './ui/headerMenuStyles.module.scss';
+import s from './headerMenuStyles.module.scss';
 import Link from 'next/link';
-import { headerLinksClient } from '@/features/headerMenu/constants/headerLinksClient';
+import { headerLinksClient } from '@/features/header/constants/headerLinksClient';
 import { EventsIcon } from '@/shared/icons';
 import { HeaderText } from '@/shared/components';
 import { useSession } from '@blitzjs/auth';
 import { LogoutButton } from '@/features/auth/components/logoutBtn/LogoutButton';
-import { headerLinksAdmin } from '@/features/headerMenu/constants/headerLinksAdmin';
-import { headerLinksNoAuth } from '@/features/headerMenu/constants/headerLinksNoAuth';
-import { THeaderLinks } from '@/features/headerMenu/types';
+import { headerLinksAdmin } from '@/features/header/constants/headerLinksAdmin';
+import { headerLinksNoAuth } from '@/features/header/constants/headerLinksNoAuth';
+import { THeaderLinks } from '@/features/header/ui/HeaderMenu/types';
 import { useEffect, useMemo, useState } from 'react';
 
 export const HeaderMenu = () => {

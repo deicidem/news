@@ -1,9 +1,7 @@
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers';
 import { Dayjs } from 'dayjs';
 import { Badge } from '@mui/material';
-import React, { useState } from 'react';
-import { useAppDispatch } from '@/shared/hooks/storeHooks';
-import { useAppSelector } from '@/shared/hooks/storeHooks/useAppSelector';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/storeHooks';
 import {
 	selectedDateActions,
 	selectedDateSelectors,

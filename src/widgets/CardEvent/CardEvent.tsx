@@ -4,7 +4,7 @@ import { BodyText, HeaderText } from '@/shared/components';
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import { formatDateToString } from '@/shared/utils';
-import { EditEventBtn } from '@/features/editEventBtn';
+import { EditEventBtn } from '@/widgets/CardEvent/components/editEventBtn';
 
 type TCardEventProps = {
 	event: any;

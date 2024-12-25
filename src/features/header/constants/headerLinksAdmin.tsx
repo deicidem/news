@@ -1,5 +1,5 @@
 import { ManagerEventsIcon, ProfileAdminIcon } from '@/shared/icons';
-import { THeaderLinks } from '@/features/headerMenu/types';
+import { THeaderLinks } from '@/features/header/ui/HeaderMenu/types';
 
 export const headerLinksAdmin: THeaderLinks[] = [
 	{

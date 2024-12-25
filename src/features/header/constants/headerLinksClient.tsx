@@ -1,5 +1,5 @@
 import { ProfileClientIcon, CalendarIcon } from '@/shared/icons';
-import { THeaderLinks } from '@/features/headerMenu/types';
+import { THeaderLinks } from '@/features/header/ui/HeaderMenu/types';
 
 export const headerLinksClient: THeaderLinks[] = [
 	{
