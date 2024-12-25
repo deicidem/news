@@ -49,7 +49,6 @@ export const SelectFormat = ({
 		{ id: 'гибрид', formatName: 'гибрид' },
 	];
 
-	console.log(selectedFormatType);
 	return (
 		<>
 			<MutationSelectField

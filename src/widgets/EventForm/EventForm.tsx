@@ -19,6 +19,8 @@ import { EventFormData, TEventFormProps } from './types';
 import { formatValidation } from './helpers/formatValidation';
 import { defaultCreateValues } from '@/widgets/EventForm/helpers/defaultCreateValues';
 import { SelectCategories } from '@/features/eventForm/categorySelectField/SelectCategories';
+import searchAdmins from '@/features/user/api/queries/searchAdmins';
+import { SearchMultiSelect } from '@/shared/components/mutationsComponent/SearchMultiSelect/SearchMultiSelect';
 
 export const EventForm = ({
 	initialData,
@@ -42,12 +44,18 @@ export const EventForm = ({
 	const [selectedAdmins, setSelectedAdmins] = useState<IAdminSearch[]>([]);
 
 	useEffect(() => {
-		if (initialData?.authorIds && Array.isArray(initialData.authorIds)) {
-			const initialAdmins = categories.filter((admin) =>
-				initialData.authorIds.includes(admin.id)
-			);
-			setSelectedAdmins(initialAdmins);
-		}
+		// if (initialData?.authorIds && Array.isArray(initialData.authorIds)) {
+		// 	const initialAdmins = selectedAdmins.filter((admin) =>
+		// 		initialData.authorIds.includes(admin.id)
+		// 	);
+		// 	console.log(initialData?.authorIds);
+		// 	console.log(initialAdmins);
+		// 	setSelectedAdmins(initialAdmins);
+		// }
+
+		// if (Array.isArray(initialData?.authorIds)) {
+		// 	setValue('authorIds', initialData?.authorIds);
+		// }
 
 		if (initialData) {
 			setValue('formatType', initialData.formatType);
@@ -56,8 +64,18 @@ export const EventForm = ({
 			if (Array.isArray(initialData.categoryIds)) {
 				setValue('categoryIds', initialData.categoryIds);
 			}
+			// if (Array.isArray(initialData.authorIds)) {
+			// 	setValue('authorIds', initialData.authorIds);
+			// }
 		}
 	}, [initialData, categories]);
+
+	useEffect(() => {
+		if (initialData && Array.isArray(initialData.authorIds)) {
+			setSelectedAdmins(initialData.authorIds.map((id) => ({ id })));
+		}
+	}, [initialData]);
+
 	const handleAdminChange = (value: IAdminSearch[]) => {
 		setSelectedAdmins(value);
 		setValue(
@@ -97,8 +115,10 @@ export const EventForm = ({
 		}
 	};
 
-	console.log(defaultCreateValues);
-	console.log(initialData);
+	// console.log(categories);
+	// console.log(initialData?.categoryIds);
+	console.log(selectedAdmins);
+	console.log(initialData?.authorIds);
 	return (
 		<Suspense fallback={<Loader visible={true} />}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>

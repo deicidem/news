@@ -34,7 +34,6 @@ export const EventDetailPage = () => {
 
 	const id = params?.id as string;
 	const event = findEventById(eventsMocks, id);
-	console.log(id);
 
 	return (
 		<Box className={s.wrapper}>

@@ -39,7 +39,6 @@ export const MutationSelectField = ({
 				const isValidValue = options.some(
 					(option) => option.id === field.value
 				);
-				console.log(field);
 				return (
 					<TextField
 						{...field}
@@ -77,7 +76,6 @@ export const MutationSelectField = ({
 						}}
 						onChange={(e) => {
 							field.onChange(e);
-							console.log(e.target.value);
 							onChange?.(e.target.value);
 						}}>
 						{options.map((option) => (
