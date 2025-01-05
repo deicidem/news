@@ -1,3 +1,2 @@
-import { SignUpForm } from '@/widgets/auth';
-
+import { SignUpForm } from '@/components/Auth/SignupForm';
 export default SignUpForm;

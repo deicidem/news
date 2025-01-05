@@ -17,7 +17,6 @@ export const {
 	gSP,
 	gSSP,
 } = setupBlitzServer({
-	middleware: [],
 	plugins: [
 		AuthServerPlugin({
 			cookiePrefix: 'event_management_next',

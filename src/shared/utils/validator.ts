@@ -43,4 +43,5 @@ export const signUpFormSchema = yup.object({
 		.required('Фамилия обязательна')
 		.min(2, 'Фамилия должна быть не короче 2 символов')
 		.max(50, 'Фамилия должна быть не длиннее 50 символов'),
+	isAdmin: yup.boolean().default(false),
 });

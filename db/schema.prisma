@@ -10,39 +10,34 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// --------------------------------------
-
 model Category {
   id     String  @id @default(uuid())
   title  String
-  events Event[] @relation("EventCategories")
+  posts Post[] @relation("PostCategories")
 }
 
-model Format {
-  id         String  @id @default(uuid())
-  formatName String
-  link       String?
-  address    String?
-  events     Event[] @relation("EventFormat")
-}
-
-model Event {
+model Post {
   id           String     @id @default(uuid())
-  createdBy    User       @relation("CreatedEvents", fields: [createdIdBy], references: [id])
-  createdIdBy  String
+  createdBy    User       @relation("CreatedPosts", fields: [createdById], references: [id])
+  createdById  String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime?  @updatedAt
   updatedBy    String?
   title        String
-  startDate    DateTime
-  endDate      DateTime
-  format       Format     @relation("EventFormat", fields: [formatId], references: [id])
-  formatId     String
   description  String?
-  image        String
-  categories   Category[] @relation("EventCategories")
-  participants User[]     @relation("EventParticipants")
-  authors      User[]     @relation("EditableEvents")
+  categories   Category[] @relation("PostCategories")
+  comments     Comment[]  @relation(name: "PostComments")
+}
+
+model Comment {
+    id        String   @id @default(uuid())
+    text      String
+    postId    String
+    post      Post     @relation(name: "PostComments", fields: [postId], references: [id])
+    createdById    String
+    createdBy      User     @relation(name: "CreatedComments", fields: [createdById], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model User {
@@ -51,13 +46,11 @@ model User {
   updatedAt           DateTime @updatedAt
   firstName           String
   lastName            String
-  patronymic          String?
   email               String   @unique
   hashedPassword      String?
   role                String   @default("CLIENT")
-  participatingEvents Event[]  @relation("EventParticipants")
-  editableEvents      Event[]  @relation("EditableEvents")
-  createdEvents       Event[]  @relation("CreatedEvents")
+  createdPosts 	      Post[]   @relation("CreatedPosts")
+  createdComments     Comment[] @relation("CreatedComments")
 
   tokens   Token[]
   sessions Session[]
@@ -84,8 +77,6 @@ model Token {
   updatedAt   DateTime @updatedAt
   hashedToken String
   type        String
-  // See note below about TokenType enum
-  // type        TokenType
   expiresAt   DateTime
   sentTo      String
 
@@ -94,10 +85,3 @@ model Token {
 
   @@unique([hashedToken, type])
 }
-
-// NOTE: It's highly recommended to use an enum for the token type
-//       but enums only work in Postgres.
-//       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
-// enum TokenType {
-//   RESET_PASSWORD
-// }

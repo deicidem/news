@@ -1,15 +1,12 @@
 import db from 'db';
 
-export default async function signup(
-	input: {
-		email: string;
-		password: string;
-		firstName: string;
-		lastName: string;
-		isAdmin: boolean;
-	},
-	ctx: any
-) {
+export default async function signup(input: {
+	email: string;
+	password: string;
+	firstName: string;
+	lastName: string;
+	isAdmin: boolean;
+}) {
 	const hashedPassword = input.password.trim();
 	const email = input.email.toLowerCase().trim();
 

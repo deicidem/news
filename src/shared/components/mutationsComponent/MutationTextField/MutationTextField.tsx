@@ -24,25 +24,6 @@ export const MutationTextField = ({
 			{...register(name, { required: required ? 'Обязательное поле' : false })}
 			error={!!errors[name]}
 			helperText={errors[name]?.message as string}
-			sx={{
-				'& .MuiInputBase-root': {
-					background: 'var(--background-gray)',
-					color: 'var(--white-color)',
-					borderRadius: '12px',
-				},
-				'& .MuiInputLabel-root': {
-					color: 'var(--text-secondary)',
-					'&.Mui-focused': {
-						color: 'var(--white-color)',
-					},
-				},
-				'& .MuiOutlinedInput-notchedOutline': {
-					borderColor: 'var(--custom-gray)',
-				},
-				'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-					borderColor: 'var(--white-color)',
-				},
-			}}
 			{...props}
 		/>
 	);

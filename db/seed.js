@@ -15,22 +15,6 @@ async function main() {
 		},
 	});
 
-	const format1 = await prisma.format.create({
-		data: {
-			formatName: 'онлайн',
-			link: 'https://example.com/online',
-			address: null,
-		},
-	});
-
-	const format2 = await prisma.format.create({
-		data: {
-			formatName: 'офлайн',
-			link: null,
-			address: 'Москва, Улица Примерная, дом 1',
-		},
-	});
-
 	// Обновляем создание пользователей согласно схеме
 	const user1 = await prisma.user.create({
 		data: {
@@ -46,46 +30,65 @@ async function main() {
 		data: {
 			firstName: 'Глеб',
 			lastName: 'Дроздов',
-			patronymic: 'Сергеевич',
 			email: 'client1@example.com',
 			hashedPassword: 'password',
 			role: 'ADMIN',
 		},
 	});
 
-	const event1 = await prisma.event.create({
+	const post1 = await prisma.post.create({
 		data: {
-			title: 'Конференция по технологиям',
-			startDate: new Date('2024-01-01T10:00:00Z'),
-			endDate: new Date('2024-01-01T18:00:00Z'),
-			formatId: format1.id,
-			createdIdBy: user1.id,
-			image: 'https://i.pinimg.com/564x/37/36/b6/3736b6a0fe310d5ceee25eb23cd98751.jpg',
+			title: 'Новая статья про IT',
+			description: 'Текст статьи про IT...',
+			createdById: user1.id,
 			categories: {
-				connect: { id: category1.id },
+				connect: [{ id: category1.id }],
 			},
 		},
 	});
 
-	const event2 = await prisma.event.create({
+	const post2 = await prisma.post.create({
 		data: {
-			title: 'Конференция по примерам',
-			startDate: new Date('2024-01-01T10:00:00Z'),
-			endDate: new Date('2024-01-01T18:00:00Z'),
-			formatId: format2.id,
-			createdIdBy: user1.id,
-			image: 'https://i.pinimg.com/originals/da/53/92/da539274bffec447de9786d1c34ba476.jpg',
+			title: 'Обзор нового продукта',
+			description: 'Текст обзора нового продукта...',
+			createdById: user2.id,
 			categories: {
-				connect: { id: category2.id },
+				connect: [{ id: category2.id }],
 			},
+		},
+	});
+	const post3 = await prisma.post.create({
+		data: {
+			title: 'Гайд по использованию приложения',
+			description: 'Текст гайда по использованию приложения...',
+			createdById: user1.id,
+			categories: {
+				connect: [{ id: category1.id }],
+			},
+		},
+	});
+
+	const comment1 = await prisma.comment.create({
+		data: {
+			text: 'Отличная статья!',
+			createdById: user1.id,
+			postId: post1.id,
+		},
+	});
+
+	const comment2 = await prisma.comment.create({
+		data: {
+			text: 'Согласен!',
+			createdById: user2.id,
+			postId: post1.id,
 		},
 	});
 
 	console.log({
 		categories: [category1, category2],
-		formats: [format1, format2],
 		users: [user1, user2],
-		events: [event1, event2],
+		posts: [post1, post2, post3],
+		comment: [comment1, comment2],
 	});
 }
 

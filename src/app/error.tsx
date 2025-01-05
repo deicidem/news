@@ -1,28 +1,30 @@
-'use client'; // Error components must be Client components
-import React, { useEffect } from 'react';
+'use client';
+import { Box, Button } from '@mui/material';
+import { BodyText, HeaderText } from '@/shared/components';
 
 export default function Error({
-	error,
 	reset,
 }: {
-	error: Error;
+	error: Error & { digest?: string };
 	reset: () => void;
 }) {
-	useEffect(() => {
-		// Log the error to an error reporting service
-		console.error(error);
-	}, [error]);
-
 	return (
-		<div>
-			<h2>Something went wrong!</h2>
-			<button
-				onClick={
-					// Attempt to recover by trying to re-render the segment
-					() => reset()
-				}>
-				Try again
-			</button>
-		</div>
+		<Box
+			sx={{
+				width: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				gap: '24px',
+				padding: '20px',
+				textAlign: 'center',
+			}}>
+			<HeaderText text='Что-то пошло не так' size='h1' />
+			<BodyText text='Попробуйте снова позже или обновите страницу' size='l' />
+			<Button variant='contained' onClick={reset}>
+				Попробовать снова
+			</Button>
+		</Box>
 	);
 }
